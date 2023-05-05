@@ -1,4 +1,4 @@
-import requests
+import urllib
 import unicodedata
 
 
@@ -11,15 +11,19 @@ def rss_headlines(args):
         # -202 : invalid feed url arg
         return '-202'
     try:
-        n_headlines = int(args[1])
+        n_headlines = args[1]
     except:
         n_headlines = 10
     
-    response = requests.get(feed_url)
+    try:
+        response = urllib.request.urlopen(feed_url)
+    except:
+        # return -203 : urlopen error
+        return '-203'
     
-    if response.status_code == 200:
+    if response.status == 200:
         try:
-            items = response.text.split('<item>')
+            items = response.read().decode().split('<item>')
         except:
             #-201 : problematic tags in response text
             return '-201'
@@ -27,7 +31,7 @@ def rss_headlines(args):
         items.pop(0)
         to_return = []
         
-        for i in range(min(n_headlines, len(items))):
+        for i in range(min(int(n_headlines), len(items))):
             to_append = {}
             try:
                 title = items[i].split('<title>')[1].split('</title>')[0]
