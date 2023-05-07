@@ -3,6 +3,10 @@ from flask import Flask, request
 
 # error codes : 200
 from . import rss
+# error codes : 300
+from . import google
+# error codes : 400
+from . import wikipedia
 
 
 
@@ -40,6 +44,10 @@ def create_app(test_config=None):
         if request.method == 'GET':
             if signal == 'rss_headlines':
                 return rss.rss_headlines(args)
+            elif signal == 'daily_trends':
+                return google.daily_trends(args)
+            elif signal == 'random_page':
+                return wikipedia.random_page(args)
             else:
                 # -101 : invalid signal header
                 return '-101'
