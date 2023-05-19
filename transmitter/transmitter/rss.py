@@ -8,8 +8,8 @@ def rss_headlines(args):
     try:
         feed_url = args[0]
     except:
-        # -202 : invalid feed url arg
-        return '-202'
+        # -200 : invalid feed url arg
+        return '-200'
     try:
         n_headlines = args[1]
     except:
@@ -18,15 +18,15 @@ def rss_headlines(args):
     try:
         response = urllib.request.urlopen(feed_url)
     except:
-        # return -203 : urlopen error
-        return '-203'
+        # return -201 : urlopen error
+        return '-201'
     
     if response.status == 200:
         try:
             items = response.read().decode().split('<item>')
         except:
-            #-201 : problematic tags in response text
-            return '-201'
+            #-203 : problematic tags in response text
+            return '-203'
         
         items.pop(0)
         to_return = []
@@ -55,5 +55,5 @@ def rss_headlines(args):
         return to_return
     
     else:
-        #-200 : response code was not 200
-        return -200
+        #-202 : response code was not 200
+        return '-202'
