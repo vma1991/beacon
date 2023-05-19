@@ -3,13 +3,14 @@ import os
 
 from flask import Flask, request
 
-from . import error_codes
+from .signals_table import valid_signals
+from .error_codes import error_codes_dict, get_error_message
 # error codes : 200
-from . import rss
+from .rss import rss_headlines
 # error codes : 300
-from . import google
+from .google import daily_trends
 # error codes : 400
-from . import wikipedia
+from .wikipedia import random_page
 
 
 
@@ -62,18 +63,18 @@ def create_app(test_config=None):
 
     @app.route('/')
     def dispatcher():
-        headers_dict = dict(request.headers)
 
         try:
             remote_addr = request.remote_addr
         except:
             remote_addr = 'remote_addr_error'
         
+        headers_dict = dict(request.headers)
         try:
             signal = headers_dict['Signal']
         except:
             # -100 : no signal header found
-            app.logger.debug('%s - %s', remote_addr, error_codes.get_error_message('-100'))
+            app.logger.debug('%s - dispatcher - %s', remote_addr, error_codes.get_error_message('-100'))
             return '-100'
         
         args = []
@@ -81,31 +82,24 @@ def create_app(test_config=None):
         while('Arg-'+str(i) in headers_dict):
             args.append(headers_dict['Arg-'+str(i)])
             i = i + 1
+
+            
         
         if request.method == 'GET':
-            if signal == 'rss_headlines':
-                to_return = rss.rss_headlines(args)
-                app.logger.debug('%s - %s', remote_addr, error_codes.get_error_message(to_return))
-                return to_return
 
-            elif signal == 'daily_trends':
-                to_return = google.daily_trends(args)
-                app.logger.debug('%s - %s', remote_addr, error_codes.get_error_message(to_return))
+            if signal in valid_signals:
+                to_return = eval(signal+'(args)')
+                app.logger.debug('%s - %s - %s', remote_addr, signal, get_error_message(to_return))
                 return to_return
-
-            elif signal == 'random_page':
-                to_return = wikipedia.random_page(args)
-                app.logger.debug('%s - %s', remote_addr, error_codes.get_error_message(to_return))
-                return to_return
-
+            
             else:
                 # -101 : invalid signal header
-                app.logger.debug('%s - %s', remote_addr, error_codes.get_error_message('-101'))
+                app.logger.debug('%s - dispatcher - %s', remote_addr, get_error_message('-101'))
                 return '-101'
-        
+
         else:
             # -150 : invalid request method
-            app.logger.debug('%s - %s', remote_addr, error_codes.get_error_message('-150'))
+            app.logger.debug('%s - dispatcher - %s', remote_addr, get_error_message('-150'))
             return '-150'
 
     return app
