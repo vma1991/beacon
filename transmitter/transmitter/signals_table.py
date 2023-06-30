@@ -4,5 +4,7 @@ valid_signals = [
     # google.py
     'daily_trends',
     # wikipedia.py
-    'random_page'
+    'random_page',
+    #steam_top_sellers.py
+    'get_steam_top_sellers'
 ]

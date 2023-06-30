@@ -11,6 +11,8 @@ from .rss import rss_headlines
 from .google import daily_trends
 # error codes : 400
 from .wikipedia import random_page
+# error codes : 500
+from .steam_top_sellers import get_steam_top_sellers
 
 
 

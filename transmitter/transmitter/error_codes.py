@@ -21,7 +21,13 @@ error_codes_dict = {
     # random_page
     '-400': 'Urlopen error',
     '-401': 'Response status was not 200',
-    '-402': 'Could not JSON decode response'
+    '-402': 'Could not JSON decode response',
+
+    # 500 : steam_top_sellers
+    # get_steam_top_sellers
+    '-500': 'Instance folder not found',
+    '-501': 'Top sellers JSON not found',
+    '-502': 'Top sellers JSON error'
 }
 
 
