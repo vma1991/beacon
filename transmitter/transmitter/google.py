@@ -59,7 +59,10 @@ def daily_trends(args):
             try:
                 url = response_dict['default']['trendingSearchesDays'][0]['trendingSearches'][i]['articles'][0]['url']
             except:
-                url = '#'        
+                try:
+                    url = response_dict['default']['trendingSearchesDays'][0]['trendingSearches'][i]['image']['newsUrl']
+                except:
+                    url = '#'        
             to_return.append({'hits': hits, 'query': query, 'url': url})
         
         return to_return
