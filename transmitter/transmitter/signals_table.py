@@ -6,5 +6,7 @@ valid_signals = [
     # wikipedia.py
     'random_page',
     #steam_top_sellers.py
-    'get_steam_top_sellers'
+    'get_steam_top_sellers',
+    # json_store.py
+    'json_store'
 ]

@@ -13,6 +13,12 @@ from .google import daily_trends
 from .wikipedia import random_page
 # error codes : 500
 from .steam_top_sellers import get_steam_top_sellers
+# error codes : 600
+from .json_store import json_store
+
+
+
+
 
 
 

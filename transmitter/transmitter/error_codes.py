@@ -27,7 +27,14 @@ error_codes_dict = {
     # get_steam_top_sellers
     '-500': 'Instance folder not found',
     '-501': 'Top sellers JSON not found',
-    '-502': 'Top sellers JSON error'
+    '-502': 'Top sellers JSON error',
+
+    # 600 : json_store
+    '-600': 'Instance folder not found',
+    '-601': 'Error getting request args',
+    '-602': 'Invalid store id',
+    '-603': 'File not found',
+    '-604': 'File opening error'
 }
 
 
