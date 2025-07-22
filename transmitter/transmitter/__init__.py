@@ -5,16 +5,10 @@ from flask import Flask, request
 
 from .signals_table import valid_signals
 from .error_codes import error_codes_dict, get_error_message
-# error codes : 200
-from .rss import rss_headlines
-# error codes : 300
-from .google import daily_trends
-# error codes : 400
-from .wikipedia import random_page
-# error codes : 500
-from .steam_top_sellers import get_steam_top_sellers
 # error codes : 600
 from .json_store import json_store
+# error codes : 700
+from .rapport_echo import rapport_echo
 
 
 

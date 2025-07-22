@@ -8,7 +8,7 @@ from flask import current_app
 
 store_ids = [
     "steam_top_sellers",
-    "mockarooo"
+    "rapport_echo"
 ]
 
 
