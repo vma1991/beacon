@@ -1,4 +1,4 @@
-import urllib.request
+from urllib.request import Request, urlopen
 import json
 import unicodedata
 import datetime
@@ -9,12 +9,13 @@ from flask import current_app
 
 def random_page():
     random_url = 'https://fr.wikipedia.org/api/rest_v1/page/random/summary'
+    #mandatory user-agent
+    headers = {'User-Agent': 'https://vma1991.net'}
+    req = Request(random_url, headers=headers)
     
     try:
-        response = urllib.request.urlopen(random_url)
+        response = urlopen(req)
     except:
-        # -400 : urlopen error
-        # return '-400'
         return {'error': 'urlopen error'}
     
     if response.status == 200:
@@ -23,8 +24,6 @@ def random_page():
         try:
             response_dict = decoder().decode(response_text)
         except:
-            # -402 : could not JSON decode response
-            # return '-402'
             return {'error': 'could not JSON decode response'}
         
         try:
@@ -44,8 +43,6 @@ def random_page():
         return to_return
     
     else:
-        # -401 : response status was not 200
-        # return '-401'
         return {'error': 'response status was not 200'}
 
 
@@ -67,18 +64,14 @@ def rss_headlines(feed_url):
     n_headlines = 7
     
     try:
-        response = urllib.request.urlopen(feed_url)
+        response = urlopen(feed_url)
     except:
-        # return -201 : urlopen error
-        # return '-201'
         return {'error': 'urlopen error'}
     
     if response.status == 200:
         try:
             items = response.read().decode().split('<item>')
         except:
-            # -203 : problematic tags in response text
-            # return '-203'
             return {'error': 'problematic tags in response text'}
         
         items.pop(0)
@@ -108,8 +101,6 @@ def rss_headlines(feed_url):
         return to_return
     
     else:
-        # -202 : response code was not 200
-        # return '-202'
         return {'error': 'response code was not 200'}
 
 
